@@ -56,7 +56,6 @@ std::string trimTrailingZeros(std::string input)
     	if(input.find(".") != std::string::npos)
     	{
     		std::string result = "";
-    		std::size_t i;
     		std::string inp(input.rbegin(),input.rend());
     		result = inp.erase(0,std::min(inp.find_first_not_of('0'),inp.size()-1));
     		if(result.at(0) == '.')
@@ -391,7 +390,7 @@ static std::string multiply_positive (const char *lhs, int lint, int ldot, int l
   free(res);
 
   char *data = (char*)malloc((result.length()+1)*sizeof(char));
-  sprintf(data, result.c_str());
+  sprintf(data, "%s", result.c_str());
   std::string ret = _round (data, resint, resdot, resfrac, resscale, scale, sign, 0);
   free(data);
 
@@ -512,7 +511,7 @@ static std::string divide_positive (const char *lhs, int lint, int ldot, int lfr
   free(divider);
 
   char *data = (char*)malloc((result.length()+1)*sizeof(char));
-  sprintf(data, result.c_str());
+  sprintf(data, "%s", result.c_str());
   std::string ret = _round (data, resint, resdot, resfrac, resscale, scale, sign, 0);
   free(data);
 
@@ -588,7 +587,7 @@ std::string BigDecimal::divide (const std::string &lhs, const std::string &rhs,i
   return trimTrailingZeros(divide_positive (lhs.c_str(), lint, ldot, lfrac, lscale, rhs.c_str(), rint, rdot, rfrac, rscale, scale, lsign * rsign));
 }
 
-std::string BigDecimal::modulus (const std::string &lhs, const std::string &rhs,int scale) {
+std::string BigDecimal::modulus (const std::string &lhs, const std::string &rhs, int) {
   if (lhs.empty()) {
     return ZERO;
   }
@@ -645,7 +644,7 @@ std::string BigDecimal::modulus (const std::string &lhs, const std::string &rhs,
   return std::string(trimTrailingZeros(std::string(buffer + cur_pos).substr(0, 20 - cur_pos)));
 }
 
-std::string BigDecimal::pow (const std::string &lhs, const std::string &rhs,int scale) {
+std::string BigDecimal::pow (const std::string &lhs, const std::string &rhs, int) {
   if (lhs.empty()) {
     return ZERO;
   }
@@ -849,15 +848,15 @@ std::string BigDecimal::round (const std::string &lhs, int scale) {
     }
 
     char *data = (char*)malloc((result.length()+1)*sizeof(char));
-    sprintf(data, result.c_str());
+    sprintf(data, "%s", result.c_str());
     std::string ret = _round (data, lint+1, ldot+1, lfrac+1, lscale, scale, lsign, 1, 1);
     free(data);
   return ret;
 }
 
-std::string BigDecimal::ln(const std::string &lhs, int scale)
+std::string BigDecimal::ln(const std::string &, int)
 {
-	
+    return std::string();
 }
 
 std::string BigDecimal::log2 (const std::string &lhs, int scale)
@@ -907,7 +906,7 @@ std::string fact(std::string a)
 //	}
 //	return sum_sin;
 //}
-std::string BigDecimal::sin(const std::string &lhs, int scale)
+std::string BigDecimal::sin(const std::string &lhs, int)
 {
 	std::string sum("0"),n,d,t,i("0"),j("0");
 	while(BigDecimal::compareTo(i,lhs) <= 0)
@@ -951,10 +950,9 @@ std::string BigDecimal::log (const std::string &lhs, int scale)
 	return std::string(BigDecimal::divide(BigDecimal::ln(lhs,0),BigDecimal::ln(to_string("10"),0),0));
 }
 
-std::string BigDecimal::stringToHex(std::string &lhs,int caps)
+std::string BigDecimal::stringToHex(std::string &lhs, int)
 {
 	
-	long int i = 1;
 	int temp;
 	lhs = getLeftOfDot(lhs);
 	std::string quotient = lhs,hexoutput("");
