@@ -560,10 +560,9 @@ std::string BigDecimal::divide (const std::string &lhs, const std::string &rhs,i
   if (scale == INT_MIN) {
     scale = _scale;
   }
- if (scale < 0) {
-   std::cerr << "Scale ("<<to_string(scale).c_str()<<") Cant Be Negative!!!"<<std::endl;
-   scale = 0;
- }
+  if (scale < 0) {
+      scale = 0;
+  }
   if (lhs.empty()) {
     return _zero (scale);
   }
@@ -580,7 +579,7 @@ std::string BigDecimal::divide (const std::string &lhs, const std::string &rhs,i
 
   int rsign, rint, rdot, rfrac, rscale;
   if (parse_number (rhs, rsign, rint, rdot, rfrac, rscale) < 0) {
-    std::cerr << "\""<< rhs.c_str() <<"\" Is Not A Number"<< std::endl;
+    //std::cerr << "\""<< rhs.c_str() <<"\" Is Not A Number"<< std::endl;
     return ZERO;
   }
 
@@ -699,11 +698,7 @@ std::string BigDecimal::add (const std::string &lhs, const std::string &rhs, int
     return add (lhs, ZERO, scale);
   }
 
-//  if (scale == INT_MIN) {
-//    scale = _scale;
-//  }
  if (scale < 0) {
-   std::cerr <<"Scale ("<<to_string(scale).c_str()<<") Cant Be Negative!!!"<< std::endl;
    scale = 0;
  }
 
@@ -730,11 +725,7 @@ std::string BigDecimal::subtract (const std::string &lhs, const std::string &rhs
     return subtract (lhs, ZERO, scale);
   }
 
-//  if (scale == INT_MIN) {
-//    scale = _scale;
-//  }
  if (scale < 0) {
-   std::cerr <<"Scale ("<<to_string(scale).c_str()<<") Cant Be Negative!!!"<< std::endl;
    scale = 0;
  }
 
@@ -763,11 +754,7 @@ std::string BigDecimal::multiply (const std::string &lhs, const std::string &rhs
     return multiply (lhs, ZERO, scale);
   }
 
-//  if (scale == INT_MIN) {
-//    scale = _scale;
-//  }
  if (scale < 0) {
-   std::cerr <<"Scale ("<<to_string(scale).c_str()<<") Cant Be Negative!!!"<< std::endl;
    scale = 0;
  }
 
@@ -798,7 +785,6 @@ int BigDecimal::compareTo (const std::string &lhs, const std::string &rhs, int s
     scale = _scale;
   }
  if (scale < 0) {
-   std::cerr << "Scale ("<<to_string(scale).c_str()<<") Cant Be Negative!!!"<< std::endl;
    scale = 0;
  }
 
@@ -831,7 +817,6 @@ std::string BigDecimal::round (const std::string &lhs, int scale) {
     }
 
    if (scale < 0) {
-     std::cerr << "Scale ("<<to_string(scale).c_str()<<") Cant Be Negative!!!"<< std::endl;
      scale = 0;
    }
 
@@ -875,7 +860,7 @@ std::string BigDecimal::log2 (const std::string &lhs, int scale)
     }
     if(lsign < 0)
 	{
-		std::cerr << "\""<<lhs.c_str()<<"\" Cannot Be A Negative Number"<< std::endl;
+        std::cerr << "\""<<lhs.c_str()<<"\" Cannot Be A Negative Number"<< std::endl;
     	return "0";
 	}
 	return (BigDecimal::compareTo(lhs,ONE) > 0)? std::string(BigDecimal::add(ONE,BigDecimal::log(BigDecimal::divide(lhs,TEN)))):ZERO;
@@ -944,7 +929,7 @@ std::string BigDecimal::log (const std::string &lhs, int scale)
     }
     if(lsign < 0)
 	{
-		std::cerr << "\""<<lhs.c_str()<<"\" Cannot Be A Negative Number"<< std::endl;
+        std::cerr << "\""<<lhs.c_str()<<"\" Cannot Be A Negative Number"<< std::endl;
     	return _zero(scale);
 	}
 	return std::string(BigDecimal::divide(BigDecimal::ln(lhs,0),BigDecimal::ln(to_string("10"),0),0));
